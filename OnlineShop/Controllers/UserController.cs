@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OnlineShop.Data;
 using OnlineShop.Models;
-using OnlineShop.Models2.User;
+using OnlineShop.Models.User;
+using OnlineShop.Entities.User;
 using OnlineShop.Services.User;
 
 namespace OnlineShop.Controllers
@@ -42,15 +43,16 @@ namespace OnlineShop.Controllers
         
         [HttpPut]
         [Route("update-user")]
-        public async Task<IActionResult> UpdateUserAsync(UserRequestDto dto)
+        public async Task<IActionResult> UpdateUserAsync(UserUpdateRequestDto dto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);  // This will return validation errors
+                return BadRequest(ModelState);  
             }
             try
             {
                 await _userService.UpdateUserAsync(dto);
+                
                 return Ok("User updated successfully.");
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using OnlineShop.Models2.User;
+﻿using OnlineShop.Models.User;
+using OnlineShop.Entities.User;
 
 namespace OnlineShop.Services.User
 {
@@ -6,7 +7,7 @@ namespace OnlineShop.Services.User
     {
         Task CreateUserAsync(UserRequestDto dto);
         Task<UserResponseDto> GetUsersAsync();
-        Task UpdateUserAsync(UserRequestDto dto);
+        Task UpdateUserAsync(UserUpdateRequestDto dto);
         Task DeleteUserAsync(int id);
 
     }

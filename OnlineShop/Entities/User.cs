@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Models
+namespace OnlineShop.entities
 {
     public class User
     {
@@ -19,6 +19,6 @@ namespace OnlineShop.Models
         public string ConfirmPassword { get; set; }
         [Required]
         public int RoleId { get; set; }        
-        public Role Role { get; set; }
+        public OnlineShop.entities.Role Role { get; set; }
     }
 }

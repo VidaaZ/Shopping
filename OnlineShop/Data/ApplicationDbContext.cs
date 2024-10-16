@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.entities;
 using OnlineShop.Models;
 using System.Net;
 

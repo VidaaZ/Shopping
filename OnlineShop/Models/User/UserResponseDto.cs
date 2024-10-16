@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.Models2.User
+﻿namespace OnlineShop.Entities.User
 {
     public class UserResponseDto
     {

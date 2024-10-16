@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
-using OnlineShop.Models2.User;
+using OnlineShop.Models.User;
+using OnlineShop.Entities.User;
 using OnlineShop.Repository.User;
+using Microsoft.IdentityModel.Tokens;
+using OnlineShop.entities;
 
 
 namespace OnlineShop.Services.User
@@ -25,11 +28,10 @@ namespace OnlineShop.Services.User
         #endregion
 
         #region Methods
-        //public async Task<List<User>> GetUsersAsync()
-        //{
-        //    // Delegate the actual database logic to the repository
-        //    return await _userRepository.GetUsersAsync();
-        //}
+        //public async Task<List<User>> GetUsersAsync(){
+        // Delegate the actual database logic to the repository
+        //   return await _userRepository.GetUsersAsync();
+        // }
 
         public async Task CreateUserAsync(UserRequestDto dto)
         {
@@ -43,41 +45,70 @@ namespace OnlineShop.Services.User
             else
                 throw new Exception("douplicate");
         }
-        public async Task UpdateUserAsync(UserRequestDto dto)
+
+        private OnlineShop.entities.User MapToEntity(UserUpdateRequestDto dto, entities.User entity)
         {
-            var user = await _userRepository.GetUserAsync(dto.UserName); 
-            if (user is null)
+
+            if (!string.IsNullOrEmpty(dto.Email))
+                entity.Email = dto.Email;
+
+            if (!string.IsNullOrWhiteSpace(dto.Name))
+                entity.Name = dto.Name;
+            if (!string.IsNullOrWhiteSpace(dto.Family))
+                entity.Family = dto.Family;
+            if (!string.IsNullOrEmpty(dto.Password))
+                if (!string.IsNullOrEmpty(dto.ConfirmPassword) && dto.ConfirmPassword == dto.Password)
+                    {
+                    entity.Password = dto.Password;
+                    entity.ConfirmPassword = dto.ConfirmPassword;
+                        
+                }
+
+                    return entity;
+        }
+
+        public async Task UpdateUserAsync(UserUpdateRequestDto dto)
+        {
+
+
+            var user = await _userRepository.GetUserAsync(dto.UserName);
+            if (user == null)
             {
                 throw new Exception("User not found.");
             }
-            user.Name = dto.Name;
-            user.Family = dto.Family;
-            user.Email = dto.Email;
-            user.Password = dto.Password;
-            // Ensure Password matches ConfirmPassword before updating
-            if (dto.Password != dto.ConfirmPassword)
-            {
-                throw new Exception("Passwords do not match.");
-            }
+
+            user = MapToEntity(dto, user);
+            await _userRepository.UpdateUserAsync(user);
+
+
+
+
+
+
+            //if (dto.Password != dto.ConfirmPassword)
+            //{
+            //    throw new Exception("Passwords do not match.");
+            //}
 
             // Optionally hash the password before storing it
-            //var passwordHasher = new PasswordHasher<User>();
-            //user.Password = passwordHasher.HashPassword(user, dto.Password);
+            // var passwordHasher = new PasswordHasher<User>();
+            // user.Password = passwordHasher.HashPassword(user, dto.Password);
 
-            //_mapper.Map(dto, user);
 
-            await _userRepository.UpdateUserAsync(user);
-    }
 
-    //todo
-    private async Task<bool> IsUserAvailable(string userName)
+            #endregion
+
+        }
+
+        //todo
+        private async Task<bool> IsUserAvailable(string userName)
         {
             return false;
         }
 
-        private Models.User MapToEntity(UserRequestDto dto)
+        private OnlineShop.entities.User MapToEntity(UserRequestDto dto)
         {
-            var entity = new Models.User();
+            var entity = new OnlineShop.entities.User();
 
             entity.UserName = dto.UserName;
             entity.RoleId = dto.RoleId;
@@ -89,22 +120,21 @@ namespace OnlineShop.Services.User
 
             return entity;
         }
-    public async Task DeleteUserAsync(int id)
-    {
-        var user = await _userRepository.GetUserByIdAsync(id);  // Check if the user exists
-        if (user == null)
+        public async Task DeleteUserAsync(int id)
         {
-            throw new Exception("User not found.");
+            var user = await _userRepository.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                throw new Exception("User not found.");
+            }
+
+            await _userRepository.DeleteUserAsync(id);  // Call the repository to delete the user
         }
 
-        await _userRepository.DeleteUserAsync(id);  // Call the repository to delete the user
-    }
-
-        Task<UserResponseDto> IUserService.GetUsersAsync()
+        public Task<UserResponseDto> GetUsersAsync()
         {
             throw new NotImplementedException();
         }
 
-        #endregion
     }
 }
