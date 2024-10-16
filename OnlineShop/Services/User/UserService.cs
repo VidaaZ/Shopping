@@ -110,7 +110,7 @@ namespace OnlineShop.Services.User
         {
             var entity = new OnlineShop.entities.User();
 
-            entity.UserName = dto.UserName;
+            entity.UserName = dto.UserName; 
             entity.RoleId = dto.RoleId;
             entity.Email = dto.Email;
             entity.ConfirmPassword = dto.ConfirmPassword;
