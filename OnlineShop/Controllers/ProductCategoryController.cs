@@ -17,8 +17,8 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductCategories()
         {
-            await _productCategoryService.GetProductCategoryAsync();
-            return Ok();
+          var categories=  await _productCategoryService.GetProductCategoryAsync();
+            return Ok(categories);
         }
         [HttpPost]
         [Route("generate-product-category")]

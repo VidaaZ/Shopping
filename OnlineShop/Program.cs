@@ -7,6 +7,8 @@ using OnlineShop.Repository.User;
 using Microsoft.AspNetCore.Hosting;
 using OnlineShop.Services;
 using AutoMapper;
+using OnlineShop.Repository.ProductCategory;
+using OnlineShop.Services.ProductCategory;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,12 +17,15 @@ var builder = WebApplication.CreateBuilder(args);
 #region Services
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+
 
 #endregion
 
 #region Repository
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 
 #endregion
 

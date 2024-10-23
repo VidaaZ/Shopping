@@ -8,6 +8,7 @@ namespace OnlineShop.Services.User
         Task<UserResponseDto> GetUsersAsync();
         Task UpdateUserAsync(UserUpdateRequestDto dto);
         Task DeleteUserAsync(Guid id);
-
+        Task StatusUserAsync(Guid id);
+        
     }
 }

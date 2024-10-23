@@ -7,5 +7,6 @@
         Task<entities.User> GetUserByIdAsync(Guid id);
         Task<entities.User> UpdateUserAsync(entities.User entity);
         Task DeleteUserAsync(entities.User user);
+        Task StatusUser(entities.User user);
     }
 }

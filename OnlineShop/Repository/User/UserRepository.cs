@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 
-
 namespace OnlineShop.Repository.User
 {
     public class UserRepository : IUserRepository
@@ -45,6 +44,13 @@ namespace OnlineShop.Repository.User
         public async Task DeleteUserAsync(entities.User user)
         {
             _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task StatusUser(entities.User user)
+        {
+            user.IsActive = false;
+            _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
         }
     }

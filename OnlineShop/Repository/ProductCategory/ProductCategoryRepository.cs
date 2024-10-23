@@ -46,5 +46,9 @@ namespace OnlineShop.Repository.ProductCategory
         {
             throw new NotImplementedException();
         }
+        public async Task<List<entities.ProductCategory>> GetAllProductCategoriesAsync()
+        {
+            return await _dbContext.ProductCategories.ToListAsync();
+        }
     }
 }

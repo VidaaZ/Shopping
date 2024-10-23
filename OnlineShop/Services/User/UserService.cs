@@ -117,13 +117,19 @@ namespace OnlineShop.Services.User
         }
         public async Task DeleteUserAsync(Guid id)
         {
+            var user =await GetUserById(id);
+
+            await _userRepository.DeleteUserAsync(user); 
+        }
+        
+        private async Task<entities.User> GetUserById(Guid id)
+        {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null)
             {
                 throw new Exception("User not found.");
             }
-
-            await _userRepository.DeleteUserAsync(user); 
+            return user;
         }
         
         public Task<UserResponseDto> GetUsersAsync()
@@ -131,5 +137,10 @@ namespace OnlineShop.Services.User
             throw new NotImplementedException();
         }
 
+        public async Task StatusUserAsync(Guid id)
+        {
+            var user = await GetUserById(id);
+            _userRepository.StatusUser(user);
+        }
     }
 }

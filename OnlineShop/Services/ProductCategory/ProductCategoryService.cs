@@ -1,4 +1,5 @@
-﻿using OnlineShop.entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.entities;
 using OnlineShop.Models.ProductCategory;
 using OnlineShop.Repository.ProductCategory;
 using OnlineShop.Repository.User;
@@ -62,9 +63,24 @@ namespace OnlineShop.Services.ProductCategory
 
             await _productCategoryRepository.DeleteProductCategoryAsync(id);  
         }
-        public Task<ProductCategoryResponseDto> GetProductCategoryAsync()
+
+        public async Task<List<ProductCategoryRequestDto>> GetProductCategoryAsync()
         {
-            throw new NotImplementedException();
+
+            var categories = await _productCategoryRepository.GetAllProductCategoriesAsync();
+
+
+            var result = categories.Select(category => new ProductCategoryRequestDto
+            {
+                
+                Name = category.Name,
+                CreateDateTime = category.CreatedDate
+            }).ToList();
+
+            
+            return result;
         }
+
+      
     }
 }

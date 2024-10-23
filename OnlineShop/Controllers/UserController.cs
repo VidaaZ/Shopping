@@ -71,6 +71,20 @@ namespace OnlineShop.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("user-id/{id}/status")]
+        public async Task<IActionResult> StatsuUserAsync(Guid id)
+        {
+            try
+            {
+                await _userService.StatusUserAsync(id);
+                return Ok("User deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 
 }

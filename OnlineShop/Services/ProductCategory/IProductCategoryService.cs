@@ -7,7 +7,8 @@ namespace OnlineShop.Services.ProductCategory
         Task CreateProductCategoryAsync(ProductCategoryRequestDto dto);
         Task UpdateProductCategoryAsync(ProductCategoryRequestDto dto);
         Task DeleteProductCategoryAsync(int id);
-        Task<ProductCategoryResponseDto> GetProductCategoryAsync();
+        Task<List<ProductCategoryRequestDto>> GetProductCategoryAsync();
+       
 
     }
 }
