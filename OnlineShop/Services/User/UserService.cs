@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using OnlineShop.Models.User;
-using OnlineShop.Entities.User;
+﻿using OnlineShop.Models.User;
 using OnlineShop.Repository.User;
-using Microsoft.IdentityModel.Tokens;
-using OnlineShop.entities;
-
 
 namespace OnlineShop.Services.User
 {
@@ -106,7 +101,7 @@ namespace OnlineShop.Services.User
             return false;
         }
 
-        private OnlineShop.entities.User MapToEntity(UserRequestDto dto)
+        private entities.User MapToEntity(UserRequestDto dto)
         {
             var entity = new OnlineShop.entities.User();
 
@@ -120,7 +115,7 @@ namespace OnlineShop.Services.User
 
             return entity;
         }
-        public async Task DeleteUserAsync(int id)
+        public async Task DeleteUserAsync(Guid id)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null)
@@ -128,9 +123,9 @@ namespace OnlineShop.Services.User
                 throw new Exception("User not found.");
             }
 
-            await _userRepository.DeleteUserAsync(id);  // Call the repository to delete the user
+            await _userRepository.DeleteUserAsync(user); 
         }
-
+        
         public Task<UserResponseDto> GetUsersAsync()
         {
             throw new NotImplementedException();

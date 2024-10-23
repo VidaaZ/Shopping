@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using OnlineShop.Data;
-using OnlineShop.Models;
 using OnlineShop.Models.User;
-using OnlineShop.Entities.User;
 using OnlineShop.Services.User;
 
 namespace OnlineShop.Controllers
@@ -33,26 +28,26 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> CreateAsync(UserRequestDto dto)
         {
             await _userService.CreateUserAsync(dto);
-    
+
             //todo:
             //var role = _db.Roles.Find(dto.RoleId);
 
 
             return Ok();
         }
-        
+
         [HttpPut]
         [Route("update-user")]
         public async Task<IActionResult> UpdateUserAsync(UserUpdateRequestDto dto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);  
+                return BadRequest(ModelState);
             }
             try
             {
                 await _userService.UpdateUserAsync(dto);
-                
+
                 return Ok("User updated successfully.");
             }
             catch (Exception ex)
@@ -60,10 +55,10 @@ namespace OnlineShop.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
         [HttpDelete]
         [Route("user-id/{id}")]
-        public async Task<IActionResult> DeleteUserAsync(int id)
+        public async Task<IActionResult> DeleteUserAsync(Guid id)
         {
             try
             {
@@ -75,7 +70,7 @@ namespace OnlineShop.Controllers
                 return BadRequest(ex.Message);
             }
         }
-       
+
     }
 
 }

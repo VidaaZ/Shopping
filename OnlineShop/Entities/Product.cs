@@ -1,19 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Entities
+namespace OnlineShop.entities
 {
     public class Product
     {
-        public Guid ProductId { get; set; }
+        [Key]
+        public int ProductId { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        public string Price { get; set; }
         public int StockQuantity { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }
+       [Required]
         public int CategoryId { get; set; }
         // Navigation Property
         public ProductCategory ProductCategory { get; set; }

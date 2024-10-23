@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Entities
+namespace OnlineShop.entities
 {
     public class ProductCategory
     {
+        [Key]
+
         public int CategoryId { get; set; }
         [Required]
         public string Name { get; set; }
@@ -11,7 +13,6 @@ namespace OnlineShop.Entities
         public DateTime CreatedDate { get; set; }
         // Navigation Property for related products
         public ICollection<Product> Products { get; set; }
-
 
     }
 }
