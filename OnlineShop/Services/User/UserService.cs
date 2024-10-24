@@ -1,4 +1,5 @@
-﻿using OnlineShop.Models.User;
+﻿using OnlineShop.Models.ProductCategory;
+using OnlineShop.Models.User;
 using OnlineShop.Repository.User;
 
 namespace OnlineShop.Services.User
@@ -27,7 +28,22 @@ namespace OnlineShop.Services.User
         // Delegate the actual database logic to the repository
         //   return await _userRepository.GetUsersAsync();
         // }
+        public async Task<List<UserResponseDto>> GetActiveUsersByRoleAsync(int roleId)
+        {
+            var users = await _userRepository.GetActiveUsersByRoleAsync(roleId);
 
+           
+            return users.Select(user => new UserResponseDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Family = user.Family,
+                Email = user.Email,
+                UserName = user.UserName,
+                Role = user.Role.Name,
+                IsActive = user.IsActive
+            }).ToList();
+        }
         public async Task CreateUserAsync(UserRequestDto dto)
         {
             bool isAvailable = await IsUserAvailable(dto.UserName);
@@ -132,15 +148,32 @@ namespace OnlineShop.Services.User
             return user;
         }
         
-        public Task<UserResponseDto> GetUsersAsync()
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task StatusUserAsync(Guid id)
         {
             var user = await GetUserById(id);
             _userRepository.StatusUser(user);
+        }
+
+      public async Task<List<UserRequestDto>> GetUsersAsync()
+        {
+            var users = await _userRepository.GetAllUsersAsync();
+            var result = users.Select(user => new UserRequestDto
+            {
+                
+                Name = user.Name,
+                Family = user.Family,
+                Email = user.Email,
+                UserName = user.UserName,
+                RoleId = user.RoleId,
+                
+               
+            }).ToList();
+
+
+            return result;
+
         }
     }
 }

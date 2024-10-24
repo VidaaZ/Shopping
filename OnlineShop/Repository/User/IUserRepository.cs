@@ -8,5 +8,7 @@
         Task<entities.User> UpdateUserAsync(entities.User entity);
         Task DeleteUserAsync(entities.User user);
         Task StatusUser(entities.User user);
+        Task<List<entities.User>> GetAllUsersAsync();
+        Task<List<entities.User>> GetActiveUsersByRoleAsync(int roleId);
     }
 }

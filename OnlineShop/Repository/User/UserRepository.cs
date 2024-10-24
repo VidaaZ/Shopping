@@ -53,5 +53,16 @@ namespace OnlineShop.Repository.User
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task<List<entities.User>> GetActiveUsersByRoleAsync(int roleId)
+        {
+            return await _dbContext.Users
+                .Include(u => u.Role) 
+                .Where(u => u.RoleId == roleId && u.IsActive) 
+                .ToListAsync();
+        }
+        public async Task<List<entities.User>> GetAllUsersAsync()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
     }
 }

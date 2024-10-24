@@ -18,8 +18,8 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            await _userService.GetUsersAsync();
-            return Ok();
+          var users=  await _userService.GetUsersAsync();
+            return Ok(users);
         }
 
 
