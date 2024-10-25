@@ -1,9 +1,12 @@
-﻿using OnlineShop.Models.User;
-
+﻿using OnlineShop.Models.Product;
 namespace OnlineShop.Services.Product
 {
     public interface IProductService
     {
-        Task<List<UserRequestDto>> GetProductsAsync();
+        Task<IEnumerable<ProductResponseDto>> GetProductsAsync();
+        void DeleteProduct(int id);
+        Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto);
+        Task<bool> HasProductAsync(int id);
+        Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
     }
 }

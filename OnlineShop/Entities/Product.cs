@@ -19,8 +19,7 @@ namespace OnlineShop.entities
         public bool IsActive { get; set; }
        [Required]
         public int CategoryId { get; set; }
-        // Navigation Property
+        
         public ProductCategory ProductCategory { get; set; }
     }
 }
-//Product and Product Category has a one-to-many relationship.

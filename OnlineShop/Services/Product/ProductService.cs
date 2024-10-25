@@ -1,36 +1,141 @@
-﻿using OnlineShop.Models.Product;
-using OnlineShop.Models.User;
+﻿using OnlineShop.entities;
+using OnlineShop.Models.Product;
 using OnlineShop.Repository.Product;
-using OnlineShop.Repository.User;
 
 namespace OnlineShop.Services.Product
 {
-    public class ProductService:IProductService
+    public class ProductService : IProductService
     {
+        #region properties
+
         private readonly IProductRepository _productRepository;
+
+        #endregion
+
+        #region Constructor
+
         public ProductService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
-
-
         }
-        public async Task<List<ProductRequestDto>> GetProductsAsync()
+
+
+
+        #endregion
+
+        #region Methods
+
+        public async Task<IEnumerable<ProductResponseDto>> GetProductsAsync()
         {
-            var products = await _productRepository.GetAllProductsAsync();
-            var result = products.Select(product => new ProductRequestDto
+            var results = await _productRepository.GetProductsAsync();
+            if (results.Any())
+            {
+                var maptoDto = MapToDto(results);
+                return maptoDto;
+            }
+            var dto = new List<ProductResponseDto>();
+            return dto;
+        }
+
+        private IEnumerable<ProductResponseDto> MapToDto(IEnumerable<entities.Product> products)
+        {
+            var result = products.Select(product => new ProductResponseDto
             {
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
                 StockQuantity = product.StockQuantity
-           }).ToList();
+            }).ToList();
             return result;
-            
+        }
+        public void DeleteProduct(int id)
+        {
+            var product = _productRepository.GetProductById(id).Result;
+
+            if (product is null)
+                throw new Exception("Data not found");
+
+            _productRepository.DeleteProduct(product);
+
         }
 
-        Task<List<UserRequestDto>> IProductService.GetProductsAsync()
+        public async Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto)
         {
-            throw new NotImplementedException();
+            var mapToEntity = MapToEntity(dto);
+            var createProduct = await _productRepository.CreateProductAsync(mapToEntity);
+            var mapToDto = MapToDto(createProduct);
+            return mapToDto;
         }
+
+        private ProductResponseDto MapToDto(entities.Product product)
+        {
+            ProductResponseDto dto = new ProductResponseDto();
+
+            dto.UpdatedDate = product.UpdatedDate;
+            dto.CreatedDate = product.CreatedDate;
+            dto.Price = product.Price;
+            dto.CategoryId = product.CategoryId;
+            dto.Description = product.Description;
+            dto.Name = product.Name;
+
+            return dto;
+        }
+
+        private entities.Product MapToEntity(ProductRequestDto dto)
+        {
+            entities.Product product = new entities.Product();
+
+            product.CategoryId = dto.CategoryId;
+            product.Name = dto.Name;
+            product.Description = dto.Description;
+            product.Price = dto.Price;
+            product.CreatedDate = DateTime.Parse(dto.CreatedDate);
+            product.UpdatedDate = DateTime.Parse(dto.UpdatedDate);
+            product.StockQuantity = (int) dto.StockQuantity;
+
+            return product;
+        }
+
+        public async Task<bool> HasProductAsync(int id)
+        {
+            var result = await _productRepository.GetProductById(id);
+
+            if (result is null)
+                throw new Exception("Data not found");
+
+            return true;
+        }
+
+        public entities.Product MapToEntity(UpdateProductRequestDto dto)
+        {
+            entities.Product entity = new entities.Product();
+
+            entity.ProductId = dto.Id;
+            entity.Name = dto.Name;
+            entity.Price = dto.Price;
+            entity.Description = dto.Description;
+            entity.StockQuantity = (int) dto.StockQuantity;
+            entity.UpdatedDate = DateTime.Parse(dto.UpdatedDate);
+            entity.CreatedDate = DateTime.Parse(dto.CreatedDate);
+            entity.CategoryId = dto.CategoryId;
+
+            return entity;
+
+        }
+
+        public async Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto)
+        {
+            var getProduct = await _productRepository.GetProductById(dto.Id);
+            if (getProduct is null)
+                throw new Exception("Data Not Found");
+
+            var mapToEntity = MapToEntity(dto);
+            var updateProduct = await _productRepository.UpdateProductRepository(mapToEntity);
+            var mapToDto = MapToDto(updateProduct);
+            return mapToDto;
+
+        }
+
+        #endregion
     }
 }

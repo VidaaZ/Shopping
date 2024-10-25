@@ -2,13 +2,16 @@
 
 namespace OnlineShop.Models.Product
 {
-    public class ProductRequestDto
+    public class UpdateProductRequestDto
     {
+        [Required(ErrorMessage = "Id must be filled")]
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Name must be filled")]
         public string Name { get; set; }
-        
+
         public string Description { get; set; }
-        
+
         [Required(ErrorMessage = "Price must be filled")]
         public string Price { get; set; }
 
@@ -16,8 +19,8 @@ namespace OnlineShop.Models.Product
         public int? StockQuantity { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
-        
+
         [Required(ErrorMessage = "Please enter Category Id")]
-        public int CategoryId { get; set; }        
+        public int CategoryId { get; set; }
     }
 }
