@@ -32,7 +32,9 @@ namespace OnlineShop.Services.User
         {
             var users = await _userRepository.GetActiveUsersByRoleAsync(roleId);
 
-           
+            if (!users.Any())
+                throw new Exception("No user found.");
+
             return users.Select(user => new UserResponseDto
             {
                 Id = user.Id,

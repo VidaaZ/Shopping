@@ -85,6 +85,13 @@ namespace OnlineShop.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetActiveUsersByRole/{roleId}")]
+        public async Task<IActionResult> GetActiveUsersByRoleAsync(int roleId)
+        {
+            var users = await _userService.GetActiveUsersByRoleAsync(roleId);
+
+            return Ok(users);
+        }
     }
 
 }
