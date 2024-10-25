@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Services.Product;
 
 namespace OnlineShop.Controllers
 {
+    [ApiController] 
+    [Route("api/[controller]")] 
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -14,8 +17,8 @@ namespace OnlineShop.Controllers
 
         public async Task<IActionResult> GetProducts()
         {
-            await _productService.GetProductsAsync();
-            return (Ok);
+         var products=await _productService.GetProductsAsync();
+            return Ok (products);
         }
 
 

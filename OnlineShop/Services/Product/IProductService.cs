@@ -2,8 +2,8 @@
 
 namespace OnlineShop.Services.Product
 {
-    public class IProductService
+    public interface IProductService
     {
-        Task<UserResponseDto> GetProductsAsync();
+        Task<List<UserRequestDto>> GetProductsAsync();
     }
 }

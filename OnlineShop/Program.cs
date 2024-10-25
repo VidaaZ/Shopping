@@ -1,14 +1,11 @@
-using FluentAssertions.Common;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
-using Microsoft.OpenApi.Models;
 using OnlineShop.Services.User;
 using OnlineShop.Repository.User;
-using Microsoft.AspNetCore.Hosting;
-using OnlineShop.Services;
-using AutoMapper;
 using OnlineShop.Repository.ProductCategory;
 using OnlineShop.Services.ProductCategory;
+using OnlineShop.Services.Product;
+using OnlineShop.Repository.Product;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 #region Services
 
 builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
 
 
 #endregion
@@ -25,7 +25,9 @@ builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 #region Repository
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+
 
 #endregion
 
@@ -43,10 +45,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
-
-
-
-
 
 var app = builder.Build();
 

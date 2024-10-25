@@ -1,6 +1,8 @@
 ﻿namespace OnlineShop.Repository.Product
 {
-    public class IProductRepository
+    public interface IProductRepository
     {
+        Task<List<entities.Product>> GetAllProductsAsync();
     }
+    
 }
