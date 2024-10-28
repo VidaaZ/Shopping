@@ -36,11 +36,27 @@ namespace OnlineShop.Repository.Product
             return results;
         }
 
+        //public async Task<entities.Product> UpdateProductRepository(entities.Product product)
+        //{
+        //    _dbContext.Products.Update(product);
+        //    await _dbContext.SaveChangesAsync();
+        //    return product;
+        //}
         public async Task<entities.Product> UpdateProductRepository(entities.Product product)
         {
-            _dbContext.Products.Update(product);
+            var existingProduct = await _dbContext.Products .FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
+
+            if (existingProduct == null)
+            {
+                throw new Exception("Product not found.");
+            }
+
+           
+            _dbContext.Entry(existingProduct).CurrentValues.SetValues(product);
+
             await _dbContext.SaveChangesAsync();
-            return product;
+            return existingProduct;
         }
+
     }
 }
