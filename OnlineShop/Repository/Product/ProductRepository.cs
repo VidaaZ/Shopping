@@ -36,15 +36,9 @@ namespace OnlineShop.Repository.Product
             return results;
         }
 
-        //public async Task<entities.Product> UpdateProductRepository(entities.Product product)
-        //{
-        //    _dbContext.Products.Update(product);
-        //    await _dbContext.SaveChangesAsync();
-        //    return product;
-        //}
         public async Task<entities.Product> UpdateProductRepository(entities.Product product)
         {
-            var existingProduct = await _dbContext.Products .FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
+            var existingProduct = await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
 
             if (existingProduct == null)
             {

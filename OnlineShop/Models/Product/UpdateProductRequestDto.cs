@@ -12,7 +12,7 @@ namespace OnlineShop.Models.Product
 
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Price must be filled")]
+       
         public string Price { get; set; }
 
         [Required(ErrorMessage = "Stock Quantity must be filled")]
