@@ -27,14 +27,20 @@ namespace OnlineShop.Services.Product
 
         public async Task<IEnumerable<ProductResponseDto>> GetProductsAsync()
         {
-            var results = await _productRepository.GetProductsAsync();
-            if (results.Any())
+            try
             {
-                var maptoDto = MapToDto(results);
-                return maptoDto;
+                var results = await _productRepository.GetProductsAsync();
+                if (results.Any())
+                {
+                    var maptoDto = MapToDto(results);
+                    return maptoDto;
+                }
+                var dto = new List<ProductResponseDto>();
+                return dto;
             }
-            var dto = new List<ProductResponseDto>();
-            return dto;
+            catch{
+                throw new InvalidOperationException("An error occurred while fetching the products.");
+            }
         }
 
         private IEnumerable<ProductResponseDto> MapToDto(IEnumerable<entities.Product> products)
@@ -50,23 +56,37 @@ namespace OnlineShop.Services.Product
         }
         public void DeleteProduct(int id)
         {
-            var product = _productRepository.GetProductById(id).Result;
+            try
+            {
 
-            if (product is null)
-                throw new Exception("Data not found");
+                var product = _productRepository.GetProductById(id).Result;
 
-            _productRepository.DeleteProduct(product);
+                if (product is null)
+                    throw new KeyNotFoundException("Product with the specified ID not found.");
 
+                _productRepository.DeleteProduct(product);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while deleting the product.", ex);
+            }
         }
 
         public async Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto)
         {
-            var mapToEntity = MapToEntity(dto);
-            var createProduct = await _productRepository.CreateProductAsync(mapToEntity);
-            var mapToDto = MapToDto(createProduct);
-            return mapToDto;
-        }
-
+            try
+            {
+                var mapToEntity = MapToEntity(dto);
+                var createProduct = await _productRepository.CreateProductAsync(mapToEntity);
+                var mapToDto = MapToDto(createProduct);
+                return mapToDto;
+            }
+            catch(Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while creating the product.", ex);
+            }
+            }
+    
         private ProductResponseDto MapToDto(entities.Product product)
         {
             ProductResponseDto dto = new ProductResponseDto();
@@ -98,12 +118,19 @@ namespace OnlineShop.Services.Product
 
         public async Task<bool> HasProductAsync(int id)
         {
-            var result = await _productRepository.GetProductById(id);
+            try
+            {
+                var result = await _productRepository.GetProductById(id);
 
-            if (result is null)
-                throw new Exception("Data not found");
+                if (result is null)
+                    throw new KeyNotFoundException("Product with the specified ID not found.");
 
-            return true;
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while checking product existence.", ex);
+            }
         }
 
         public entities.Product MapToEntity(UpdateProductRequestDto dto)
@@ -125,15 +152,26 @@ namespace OnlineShop.Services.Product
 
         public async Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto)
         {
-            var getProduct = await _productRepository.GetProductById(dto.Id);
+            try
+            {
+                var getProduct = await _productRepository.GetProductById(dto.Id);
             if (getProduct is null)
-                throw new Exception("Data Not Found");
-
-            var mapToEntity = MapToEntity(dto);
-            var updateProduct = await _productRepository.UpdateProductRepository(mapToEntity);
-            var mapToDto = MapToDto(updateProduct);
-            return mapToDto;
-
+                throw new KeyNotFoundException("Product with the specified ID not found.");
+            
+                var mapToEntity = MapToEntity(dto);
+                var updateProduct = await _productRepository.UpdateProductRepository(mapToEntity);
+                var mapToDto = MapToDto(updateProduct);
+                return mapToDto;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw ex; 
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while updating the product.", ex);
+            }
+        }
         }
 
         #endregion
