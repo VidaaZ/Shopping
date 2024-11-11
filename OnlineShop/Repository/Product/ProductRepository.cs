@@ -30,10 +30,34 @@ namespace OnlineShop.Repository.Product
             return result;
         }
 
+        public async Task<int> GetProductCountAsync(int ProductId)
+        {
+            var result = await _dbContext.Products
+                .Where(x => x.ProductId == ProductId)
+                .Select(x => x.StockQuantity)
+                .FirstOrDefaultAsync();
+            return result;
+
+
+        }
+
         public async Task<IEnumerable<entities.Product>> GetProductsAsync()
         {
             var results = await _dbContext.Products.ToListAsync();
             return results;
+        }
+
+        public async Task UpdateProductCountAsync(int productId, int count)
+        {
+            var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+            if (product == null)
+            {
+                throw new KeyNotFoundException("Product with the specified ID not found.");
+            }
+
+            product.StockQuantity -= count; 
+            await _dbContext.SaveChangesAsync();
+           
         }
 
         public async Task<entities.Product> UpdateProductRepository(entities.Product product)
@@ -45,7 +69,7 @@ namespace OnlineShop.Repository.Product
                 throw new Exception("Product not found.");
             }
 
-           
+
             _dbContext.Entry(existingProduct).CurrentValues.SetValues(product);
 
             await _dbContext.SaveChangesAsync();

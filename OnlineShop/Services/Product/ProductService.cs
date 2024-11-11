@@ -38,7 +38,8 @@ namespace OnlineShop.Services.Product
                 var dto = new List<ProductResponseDto>();
                 return dto;
             }
-            catch{
+            catch
+            {
                 throw new InvalidOperationException("An error occurred while fetching the products.");
             }
         }
@@ -81,12 +82,12 @@ namespace OnlineShop.Services.Product
                 var mapToDto = MapToDto(createProduct);
                 return mapToDto;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new InvalidOperationException("An error occurred while creating the product.", ex);
             }
-            }
-    
+        }
+
         private ProductResponseDto MapToDto(entities.Product product)
         {
             ProductResponseDto dto = new ProductResponseDto();
@@ -111,7 +112,7 @@ namespace OnlineShop.Services.Product
             product.Price = dto.Price;
             product.CreatedDate = DateTime.Parse(dto.CreatedDate);
             product.UpdatedDate = DateTime.Parse(dto.UpdatedDate);
-            product.StockQuantity = (int) dto.StockQuantity;
+            product.StockQuantity = (int)dto.StockQuantity;
 
             return product;
         }
@@ -127,7 +128,7 @@ namespace OnlineShop.Services.Product
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new InvalidOperationException("An error occurred while checking product existence.", ex);
             }
@@ -141,7 +142,7 @@ namespace OnlineShop.Services.Product
             entity.Name = dto.Name;
             entity.Price = dto.Price;
             entity.Description = dto.Description;
-            entity.StockQuantity = (int) dto.StockQuantity;
+            entity.StockQuantity = (int)dto.StockQuantity;
             entity.UpdatedDate = DateTime.Parse(dto.UpdatedDate);
             entity.CreatedDate = DateTime.Parse(dto.CreatedDate);
             entity.CategoryId = dto.CategoryId;
@@ -155,9 +156,9 @@ namespace OnlineShop.Services.Product
             try
             {
                 var getProduct = await _productRepository.GetProductById(dto.Id);
-            if (getProduct is null)
-                throw new KeyNotFoundException("Product with the specified ID not found.");
-            
+                if (getProduct is null)
+                    throw new KeyNotFoundException("Product with the specified ID not found.");
+
                 var mapToEntity = MapToEntity(dto);
                 var updateProduct = await _productRepository.UpdateProductRepository(mapToEntity);
                 var mapToDto = MapToDto(updateProduct);
@@ -165,14 +166,38 @@ namespace OnlineShop.Services.Product
             }
             catch (KeyNotFoundException ex)
             {
-                throw ex; 
+                throw ex;
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException("An error occurred while updating the product.", ex);
             }
         }
+
+        public Task<int> GetProductCountAsync(int ProductId)
+        {
+            try
+            {
+                return _productRepository.GetProductCountAsync(ProductId);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while fetching the product count.", ex);
+            }
         }
+
+        public Task UpdateProductCountAsync(int ProductId, int count)
+        {
+            try
+            {
+                return _productRepository.UpdateProductCountAsync(ProductId, count);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while updating the product count.", ex);
+            }
+        }
+
 
         #endregion
     }

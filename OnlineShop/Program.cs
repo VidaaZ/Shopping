@@ -6,6 +6,7 @@ using OnlineShop.Repository.ProductCategory;
 using OnlineShop.Services.ProductCategory;
 using OnlineShop.Services.Product;
 using OnlineShop.Repository.Product;
+using OnlineShop.Services.Order;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 
 
@@ -27,6 +29,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 #endregion

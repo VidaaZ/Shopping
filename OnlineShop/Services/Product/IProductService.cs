@@ -8,5 +8,7 @@ namespace OnlineShop.Services.Product
         Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto);
         Task<bool> HasProductAsync(int id);
         Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
+        Task<int> GetProductCountAsync(int ProductId);
+        Task UpdateProductCountAsync(int ProductId, int count);
     }
 }

@@ -7,6 +7,8 @@
         Task<entities.Product> GetProductById(int id);
         Task<entities.Product> CreateProductAsync(entities.Product product);
         Task<entities.Product> UpdateProductRepository(entities.Product product);
+        Task<int> GetProductCountAsync(int ProductId);
+        Task UpdateProductCountAsync(int productId, int count);
     }
     
 }

@@ -30,6 +30,14 @@ namespace OnlineShop.Controllers
         #region Methods
 
         [HttpGet]
+        [Route("product-id/{productId}")]
+        public async Task<IActionResult> GetProductQueantity(int productId)
+        {
+            var result = await _productService.GetProductQuantity(productId);
+            return Ok(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetProductsAsync()
         {
             _logger.LogInformation("Fetching all products");
@@ -101,7 +109,26 @@ namespace OnlineShop.Controllers
                 return BadRequest("An error occurred while updating the product.");
             }
         }
-
-        #endregion
+        [HttpPut("{productId}/update-count")]
+        public async Task<IActionResult> UpdateProductCount(int productId, int count)
+        {
+            try
+            {
+                await _productService.UpdateProductCountAsync(productId, count);
+                return Ok("Product count updated successfully.");
+            }
+           
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message); // Return 400 if there's an issue with the update
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while updating the product count."); // Return 500 for other errors
+            }
+        }
     }
+
+    #endregion
 }
+
