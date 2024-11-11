@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using OnlineShop.Data;
 
 namespace OnlineShop.Repository.User
@@ -29,14 +28,6 @@ namespace OnlineShop.Repository.User
             return entity;
         }
 
-
-        public async Task DeleteUserAsync(entities.User user)
-        {
-            _dbContext.Users.Remove(user);
-            await _dbContext.SaveChangesAsync();
-        }
-
-
         public async Task<entities.User> GetUserAsync(string userName)
         {
             var result = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserName == userName);
@@ -44,23 +35,23 @@ namespace OnlineShop.Repository.User
         }
 
 
-        public async Task<entities.User> GetUserByIdAsync(int id)
+        public async Task<entities.User> GetUserByIdAsync(Guid id)
         {
             return await _dbContext.Users.FindAsync(id);
         }
 
 
-        public async Task DeleteUserAsync(int id)
+        public async Task DeleteUserAsync(entities.User user)
         {
-            var user = await GetUserByIdAsync(id);
-            if (user != null)
-            {
-                _dbContext.Users.Remove(user);
-                await _dbContext.SaveChangesAsync();
-            }
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
         }
 
-
-
+        public async Task StatusUser(entities.User user)
+        {
+            user.IsActive = false;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

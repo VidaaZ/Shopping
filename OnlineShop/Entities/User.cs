@@ -18,7 +18,12 @@ namespace OnlineShop.entities
         [Required]
         public string ConfirmPassword { get; set; }
         [Required]
-        public int RoleId { get; set; }        
-        public OnlineShop.entities.Role Role { get; set; }
+        public bool IsActive { get; set; }
+        [Required]
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
+
+        
+
     }
 }
