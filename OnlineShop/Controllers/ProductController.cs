@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using OnlineShop.Models.Product;
 using OnlineShop.Services.Product;
 
@@ -32,13 +33,12 @@ namespace OnlineShop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProductsAsync()
         {
-            _logger.LogInformation("Fetching all products");
+            //_logger.LogInformation("Fetching all products");
             try
             {
                 var results = await _productService.GetProductsAsync();
                 //_logger.LogInformation("Successfully fetched {Id} products", results.Id);
                 return Ok(results);
-
             }
             catch (Exception ex)
             {
