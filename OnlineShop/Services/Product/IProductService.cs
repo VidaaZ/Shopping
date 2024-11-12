@@ -10,5 +10,6 @@ namespace OnlineShop.Services.Product
         Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
         Task<int> GetProductCountAsync(int ProductId);
         Task UpdateProductCountAsync(int ProductId, int count);
+        Task<entities.Order> CreateOrderAsync(entities.Order order);
     }
 }
