@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Register AutoMapper manually
 var mappingConfig = new MapperConfiguration(mc =>
-{
+{ 
     mc.AddProfile(new ProductMappingProfile());
     
 });
