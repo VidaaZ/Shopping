@@ -74,7 +74,7 @@ namespace OnlineShop.Services.Order
                 if (notifyOnAvailable)
                 {
                    
-                    await _emailService.SendProductAvailabilityNotificationAsync(orderDetails.Email, "Product Name"); 
+                    await _emailService.SendEmailAsync(orderDetails.Email, "Product Name"); 
                     throw new Exception("Mojod nist. Notification baraye mojod shodan ersal mishavad.");
                 }
                 else

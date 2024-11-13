@@ -2,6 +2,8 @@
 {
     public interface IEmailService
     {
-        Task SendProductAvailabilityNotificationAsync(string email, string productName);
+        Task SendEmailAsync(string email, string textMessage);
+        Task<string> FillTextMessageAsync(string textMessage, string code, int number, string firstName);
+        
     }
 }

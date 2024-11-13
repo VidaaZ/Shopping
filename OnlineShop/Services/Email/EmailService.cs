@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class EmailService : IEmailService
 {
-    public async Task SendProductAvailabilityNotificationAsync(string email, string productName)
+    public async Task SendEmailAsync(string email, string textMessage)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("Your Store Name", "yourstore@example.com")); 
@@ -14,7 +14,7 @@ public class EmailService : IEmailService
 
         message.Body = new TextPart("plain")
         {
-            Text = $"Dear customer,\n\nThe product '{productName}' is now available. You can place your order now.\n\nBest regards,\nYour Store Team"
+            Text = textMessage
         };
 
         using (var client = new SmtpClient())
@@ -31,5 +31,19 @@ public class EmailService : IEmailService
                 throw new InvalidOperationException("Failed to send email notification.", ex);
             }
         }
+    }
+
+    public async Task<string> FillTextMessageAsync(string textMessage, string code, int number, string firstName)
+    {
+        switch (number)
+        {
+            case 1:
+                textMessage = $"Dear {firstName} Product {code} is available";
+                break;
+            case 2:
+                textMessage = $"Dear {firstName} login code is {code}";
+                break;
+        }
+        return textMessage;
     }
 }
