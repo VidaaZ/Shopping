@@ -6,11 +6,18 @@ using OnlineShop.Repository.ProductCategory;
 using OnlineShop.Services.ProductCategory;
 using OnlineShop.Services.Product;
 using OnlineShop.Repository.Product;
+using AutoMapper;
+using OnlineShop.Mappings;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+var mappingConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new ProductMappingProfile());
 
+});
+IMapper mapper = mappingConfig.CreateMapper();
 #region Services
 
 builder.Services.AddScoped<IUserService, UserService>();
