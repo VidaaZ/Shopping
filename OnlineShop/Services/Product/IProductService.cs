@@ -8,5 +8,6 @@ namespace OnlineShop.Services.Product
         Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto);
         Task<bool> HasProductAsync(int id);
         Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
+        Task<IEnumerable<ProductResponseDto>> SearchProductsAsync(string productName, string categoryName);
     }
 }
