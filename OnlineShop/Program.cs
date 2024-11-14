@@ -8,6 +8,9 @@ using OnlineShop.Services.Product;
 using OnlineShop.Repository.Product;
 using AutoMapper;
 using OnlineShop.Mappings;
+using OnlineShop.Services.SignUp_UserInformation;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 var mappingConfig = new MapperConfiguration(mc =>
 { 
     mc.AddProfile(new ProductMappingProfile());
-    
+    mc.AddProfile(new SignUpMappingProfile());
+
 });
 IMapper mapper = mappingConfig.CreateMapper();
 
@@ -28,6 +32,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISignUpService, SignUpService>();
+
 builder.Services.AddSingleton(mapper);
 
 
