@@ -4,6 +4,6 @@
     {
         Task<entities.SignUp> AddUserAsync(entities.SignUp user);
         Task<entities.SignUp> GetUSerByUserNameAsync(string username);
-        Task<bool> UserExistsAsync(string username);
+        Task<entities.SignUp> UserExistsAsync(string username,string email);
     }
 }

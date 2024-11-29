@@ -9,6 +9,8 @@ using OnlineShop.Repository.Product;
 using AutoMapper;
 using OnlineShop.Mappings;
 using OnlineShop.Services.SignUp_UserInformation;
+using OnlineShop.Repository.UserInformation_SignUp;
+using OnlineShop.Repository.SignUp_UserInformation;
 
 
 
@@ -55,6 +57,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+builder.Services.AddScoped<ISignUpRepository,SignUpRepository>();
 
 
 #endregion

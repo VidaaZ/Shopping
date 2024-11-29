@@ -5,6 +5,7 @@ using OnlineShop.Services.SignUp_UserInformation;
 
 namespace OnlineShop.Controllers
 {
+    [Route("api/signup")]
     public class SignUpController : ControllerBase
     {
         private readonly ISignUpService _signUpService;
@@ -15,17 +16,18 @@ namespace OnlineShop.Controllers
             _signUpService = signUpService;
             _logger = logger;
         }
-        [HttpPost("signup")]
-        public async Task<IActionResult> Signup(SignUpRequestDto signUpInfo)
+        [HttpPost]
+        [Route("signup")]
+        public async Task<IActionResult> Signup([FromBody] SignUpRequestDto signUpInfo)
         {
             try
             {
                var result= await _signUpService.SignUpAsync(signUpInfo);
                 return Ok(result);
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest("User already exists.");
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OnlineShop.Services.SignUp_UserInformation
 {
-    public class SignUpService
+    public class SignUpService : ISignUpService
     {
         private readonly ISignUpRepository _signUpRepository;
         private readonly IMapper _mapper;
@@ -16,15 +16,16 @@ namespace OnlineShop.Services.SignUp_UserInformation
         {
             _signUpRepository = signUpRepository;
         }
-        public async Task<bool>SignUpAsync(SignUpRequestDto userInfo)
+        public async Task<bool> SignUpAsync(SignUpRequestDto userInfo)
         {
-            if (await _signUpRepository.UserExistsAsync(userInfo.UserName))
-            
-                return false;
+            var user = await _signUpRepository.UserExistsAsync(userInfo.UserName, userInfo.Email);
+
+            if (user != null)
+                throw new Exception("Douplicate!!");
             
             userInfo.PasswordHash = HashPassword(userInfo.PasswordHash);
-            var signup = _mapper.Map<SignUp>(userInfo);
-            await _signUpRepository.AddUserAsync(signup);
+             
+            await _signUpRepository.AddUserAsync(_mapper.Map<SignUpRequestDto, SignUp>(userInfo));
             return true;
         }
         public async Task<bool> LoginAsync(string username, string password)
@@ -34,20 +35,20 @@ namespace OnlineShop.Services.SignUp_UserInformation
             if (user == null)
                 return false;
 
-            
-            return VerifyPassword(password, user.PasswordHash); 
+
+            return VerifyPassword(password, user.PasswordHash);
         }
 
         private string HashPassword(string password)
         {
-            
-            return password; 
+
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
         private bool VerifyPassword(string password, string hashedPassword)
         {
-            
-            return password == hashedPassword; 
+
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
     }
 }

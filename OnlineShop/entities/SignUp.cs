@@ -16,7 +16,7 @@ namespace OnlineShop.entities
         
         public string Address { get; set; }
         [Required]
-        public String PasswordHash { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public string PasswordHash { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

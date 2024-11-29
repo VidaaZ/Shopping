@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.entities;
 using OnlineShop.Repository.SignUp_UserInformation;
 
 namespace OnlineShop.Repository.UserInformation_SignUp
@@ -12,7 +13,7 @@ namespace OnlineShop.Repository.UserInformation_SignUp
         {
             _dbContext = dbContext;
         }
-        public async Task<entities.SignUp> AddUserAsync(entities.SignUp user)
+        public async Task<entities.SignUp> AddUserAsync(entities.SignUp user) //todo: Change It to User Entitiy
         {
             await _dbContext.SignUp.AddAsync(user);
             _dbContext.SaveChanges();
@@ -23,9 +24,9 @@ namespace OnlineShop.Repository.UserInformation_SignUp
             var result = await _dbContext.SignUp.FirstOrDefaultAsync(u => u.UserName == username);
             return result;
         }
-        public async Task<bool> UserExistsAsync(string username)
+        public async Task<SignUp> UserExistsAsync(string username,string email) //todo:username and email shoud be both input
         {
-            var result = await _dbContext.SignUp.AnyAsync(u => u.UserName == username);
+            var result = await _dbContext.SignUp.FirstOrDefaultAsync(u => u.UserName == username || u.Email == email);
             return result;
         }
     }
