@@ -2,8 +2,8 @@
 {
     public interface ISignUpRepository
     {
-        Task<entities.SignUp> AddUserAsync(entities.SignUp user);
-        Task<entities.SignUp> GetUSerByUserNameAsync(string username);
-        Task<entities.SignUp> UserExistsAsync(string username,string email);
+        Task<entities.User> AddUserAsync(entities.User user);
+        Task<entities.User> GetUSerByUserNameAsync(string username);
+        Task<entities.User> UserExistsAsync(string username,string email);
     }
 }

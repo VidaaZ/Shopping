@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TypeScriptTarget>ES3</TypeScriptTarget>
@@ -15,9 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="utilities\**" />
     <Compile Remove="Views\**" />
+    <Content Remove="utilities\**" />
     <Content Remove="Views\**" />
+    <EmbeddedResource Remove="utilities\**" />
     <EmbeddedResource Remove="Views\**" />
+    <None Remove="utilities\**" />
     <None Remove="Views\**" />
   </ItemGroup>
 

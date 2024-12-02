@@ -6,15 +6,24 @@ namespace OnlineShop.Models.SignUp
     {
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string LastName { get; set; }
+
         [Required]
-        public string UserName { get; set; }
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", ErrorMessage = "Invalid email format.")]
         public string Email { get; set; }
 
-        public string Address { get; set; }
         [Required]
-        public string PasswordHash { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public string UserName { get; set; }
+
+        [Required]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        public string ConfirmPassword { get; set; }
     }
+
 }

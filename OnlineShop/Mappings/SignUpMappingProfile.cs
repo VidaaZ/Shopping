@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using OnlineShop.entities;
-using OnlineShop.entities; 
 using OnlineShop.Models.SignUp; 
 
 namespace OnlineShop.Mappings
@@ -9,9 +8,11 @@ namespace OnlineShop.Mappings
     {
         public SignUpMappingProfile()
         {
-            
-            CreateMap<SignUp, SignUpResponseDto>();
-            CreateMap<SignUpRequestDto, SignUp>();
+            CreateMap<SignUpRequestDto, User>()
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FirstName))  
+                 .ForMember(dest => dest.Family, opt => opt.MapFrom(src => src.LastName)) 
+                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()); // PasswordHash is handled manually
         }
     }
+
 }

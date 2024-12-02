@@ -6,6 +6,7 @@ namespace OnlineShop.Models.User
     {
         public string? Name { get; set; }  // Nullable to allow optional updates
         public string? Family { get; set; }
+       
         public string? Email { get; set; }
         [Required(ErrorMessage = "Username must be filled")]
         public string UserName { get; set; }

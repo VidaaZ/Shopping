@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.entities;
+using OnlineShop.Models.Login;
 using OnlineShop.Models.SignUp;
 using OnlineShop.Services.SignUp_UserInformation;
 
 namespace OnlineShop.Controllers
 {
+    
     [Route("api/signup")]
     public class SignUpController : ControllerBase
     {
@@ -18,14 +20,41 @@ namespace OnlineShop.Controllers
         }
         [HttpPost]
         [Route("signup")]
-        public async Task<IActionResult> Signup([FromBody] SignUpRequestDto signUpInfo)
+        public async Task<IActionResult> SignupAsync([FromBody] SignUpRequestDto signUpInfo)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogError(error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var result = await _signUpService.SignUpAsync(signUpInfo);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto loginRequest)
         {
             try
             {
-               var result= await _signUpService.SignUpAsync(signUpInfo);
-                return Ok(result);
+                var isAuthenticated = await _signUpService.LoginAsync(loginRequest.UserName, loginRequest.Password);
+
+                if (!isAuthenticated)
+                    return Unauthorized("Invalid username or password");
+
+                return Ok("Login successful");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

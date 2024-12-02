@@ -14,7 +14,7 @@ namespace OnlineShop.Models.SignUp
 
         public string Address { get; set; }
       
-        public String PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }
