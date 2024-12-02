@@ -21,5 +21,7 @@ namespace OnlineShop.entities
         public int CategoryId { get; set; }
         
         public ProductCategory ProductCategory { get; set; }
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
     }
 }
