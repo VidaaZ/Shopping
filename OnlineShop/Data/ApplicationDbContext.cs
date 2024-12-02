@@ -27,6 +27,11 @@ namespace OnlineShop.Data
                 .HasOne(p => p.ProductCategory)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
+            
+            modelBuilder.Entity<Product>()
+               .HasOne(u => u.Brand)
+               .WithMany(r => r.Products)
+               .HasForeignKey(u => u.BrandId);
 
             base.OnModelCreating(modelBuilder);
         }
