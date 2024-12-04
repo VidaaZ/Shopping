@@ -28,7 +28,7 @@ namespace OnlineShop.Data
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
             
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Product>() //todo:relation many to many,
                .HasOne(u => u.Brand)
                .WithMany(r => r.Products)
                .HasForeignKey(u => u.BrandId);
