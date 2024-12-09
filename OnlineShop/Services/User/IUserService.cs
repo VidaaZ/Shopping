@@ -1,6 +1,4 @@
-﻿using OnlineShop.Models.User;
-
-namespace OnlineShop.Services.User
+﻿namespace OnlineShop.Services.User
 {
     public interface IUserService
     {

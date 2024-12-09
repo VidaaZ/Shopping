@@ -1,5 +1,4 @@
 ﻿using OnlineShop.Models.ProductCategory;
-using OnlineShop.Models.User;
 using OnlineShop.Repository.User;
 
 namespace OnlineShop.Services.User

@@ -1,14 +1,14 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Models.User
+namespace OnlineShop.entities.User
 {
     public class UserRequestDto
-    { 
-        [Required(ErrorMessage ="Name must be filled")]
+    {
+        [Required(ErrorMessage = "Name must be filled")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage ="Family must be filled")]
+        [Required(ErrorMessage = "Family must be filled")]
         public string Family { get; set; }
 
         [Required(ErrorMessage = "Email must be filled")]
@@ -23,7 +23,7 @@ namespace OnlineShop.Models.User
         [Required(ErrorMessage = "Confirm Password must be filled")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage ="Please Enter Role")]
+        [Required(ErrorMessage = "Please Enter Role")]
         public int RoleId { get; set; }
     }
 }

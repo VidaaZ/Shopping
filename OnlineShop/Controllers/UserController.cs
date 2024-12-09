@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Models.User;
 using OnlineShop.Services.User;
 
 namespace OnlineShop.Controllers
