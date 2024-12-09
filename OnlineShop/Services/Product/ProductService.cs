@@ -176,4 +176,3 @@ namespace OnlineShop.Services.Product
 
         #endregion
     }
-}
