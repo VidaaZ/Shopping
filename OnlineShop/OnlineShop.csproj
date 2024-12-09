@@ -15,12 +15,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="auth-forms\**" />
     <Compile Remove="utilities\**" />
     <Compile Remove="Views\**" />
+    <Content Remove="auth-forms\**" />
     <Content Remove="utilities\**" />
     <Content Remove="Views\**" />
+    <EmbeddedResource Remove="auth-forms\**" />
     <EmbeddedResource Remove="utilities\**" />
     <EmbeddedResource Remove="Views\**" />
+    <None Remove="auth-forms\**" />
     <None Remove="utilities\**" />
     <None Remove="Views\**" />
   </ItemGroup>

@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignUpForm from './components/SignupForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
+const App = () => {
+
+    return (
+        <span>
+            hello
+        </span>
+    );
+    //return (
+    //    <Router>
+    //        <Routes>
+    //            {/* Define a route for the signup form */}
+    //            <Route path="/" element={<h1>Welcome to Onlineshop</h1>} />
+    //            <Route path="/signup" element={<SignUpForm />} />
+    //        </Routes>
+    //    </Router>
+    //);
+};
 export default App;
