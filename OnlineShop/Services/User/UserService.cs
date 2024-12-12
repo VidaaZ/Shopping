@@ -27,11 +27,7 @@ namespace OnlineShop.Services.User
 
         #endregion
 
-        #region Methods
-        //public async Task<List<User>> GetUsersAsync(){
-        // Delegate the actual database logic to the repository
-        //   return await _userRepository.GetUsersAsync();
-        // }
+       
 
         public async Task CreateUserAsync(UserRequestDto dto)
         {
@@ -85,19 +81,7 @@ namespace OnlineShop.Services.User
 
 
 
-            //if (dto.Password != dto.ConfirmPassword)
-            //{
-            //    throw new Exception("Passwords do not match.");
-            //}
-
-            // Optionally hash the password before storing it
-            // var passwordHasher = new PasswordHasher<User>();
-            // user.Password = passwordHasher.HashPassword(user, dto.Password);
-
-
-
-            #endregion
-
+            
         }
 
         //todo
