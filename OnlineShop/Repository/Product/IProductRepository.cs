@@ -7,6 +7,7 @@
         Task<entities.Product> GetProductById(int id);
         Task<entities.Product> CreateProductAsync(entities.Product product);
         Task<entities.Product> UpdateProductRepository(entities.Product product);
+        Task<IEnumerable<entities.Product>> SearchProductsAsync(string productName, string categoryName);
     }
     
 }

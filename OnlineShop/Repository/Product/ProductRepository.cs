@@ -51,6 +51,38 @@ namespace OnlineShop.Repository.Product
             await _dbContext.SaveChangesAsync();
             return existingProduct;
         }
+        public async Task<IEnumerable<entities.Product>> SearchProductsAsync(string productName, string categoryName)
+        {
+            var query = _dbContext.Products.AsQueryable();
+            
+            if (!string.IsNullOrEmpty(productName))
+            {
+               
+                query = query.Where(p => p.Name.Contains(productName));
+            }
+            else if (!string.IsNullOrEmpty(categoryName))
+            {
+                
+             
+                var category = await _dbContext.ProductCategories
+                    .FirstOrDefaultAsync(c => c.Name.Contains(categoryName));
+
+                if (category != null)
+                {
+                 
+                    query = query.Where(p => p.CategoryId == category.CategoryId);
+                }
+                else
+                {
+                    
+                    return new List<entities.Product>();
+                }
+            }
+
+            return await query.ToListAsync();
+        }
+
+
 
     }
 }

@@ -94,5 +94,16 @@ namespace OnlineShop.Services.Product
                 throw new InvalidOperationException("An error occurred while updating the product.", ex);
             }
         }
+        public async Task<IEnumerable<ProductResponseDto>> SearchProductsAsync(string productName, string categoryName)
+        {
+            var products = await _productRepository.SearchProductsAsync(productName, categoryName);
+
+           
+            var productDto = _mapper.Map<IEnumerable<ProductResponseDto>>(products);
+
+            return productDto;
+        }
+
+
     }
 }

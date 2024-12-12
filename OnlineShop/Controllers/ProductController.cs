@@ -36,7 +36,7 @@ namespace OnlineShop.Controllers
             try
             {
                 var results = await _productService.GetProductsAsync();
-                //_logger.LogInformation("Successfully fetched {Id} products", results.Id);
+             
                 return Ok(results);
 
             }
@@ -101,6 +101,22 @@ namespace OnlineShop.Controllers
                 return BadRequest("An error occurred while updating the product.");
             }
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProductsAsync([FromQuery] string? productName, [FromQuery] string? categoryName)
+        {
+            _logger.LogInformation("Searching products by productname and categoryname");
+            try
+            {
+                var results = await _productService.SearchProductsAsync(productName, categoryName);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while searching products");
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         #endregion
     }
