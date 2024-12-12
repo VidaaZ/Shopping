@@ -1,4 +1,5 @@
 ﻿
+using OnlineShop.entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShop.Models.User
@@ -12,6 +13,7 @@ namespace OnlineShop.Models.User
         public string Family { get; set; }
 
         [Required(ErrorMessage = "Email must be filled")]
+        [DataType(DataType.EmailAddress,ErrorMessage ="Email address is not valid")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Username must be filled")]
@@ -24,6 +26,6 @@ namespace OnlineShop.Models.User
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage ="Please Enter Role")]
-        public int RoleId { get; set; }
+        public Role RoleId { get; set; }
     }
 }
