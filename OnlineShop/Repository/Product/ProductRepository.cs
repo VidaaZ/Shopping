@@ -30,7 +30,7 @@ namespace OnlineShop.Repository.Product
             return result;
         }
 
-        public async Task<IEnumerable<entities.Product>> GetProductsAsync()
+        public async Task<List<entities.Product>> GetProductsAsync()
         {
             var results = await _dbContext.Products.ToListAsync();
             return results;
