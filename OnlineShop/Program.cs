@@ -11,6 +11,7 @@ using OnlineShop.Mappings;
 using OnlineShop.Services.SignUp_UserInformation;
 using OnlineShop.Repository.UserInformation_SignUp;
 using OnlineShop.Repository.SignUp_UserInformation;
+using OnlineShop.Services.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISignUpService, SignUpService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddSingleton(mapper);
 #endregion
