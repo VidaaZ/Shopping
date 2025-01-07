@@ -27,43 +27,59 @@ namespace OnlineShop.Services.Email
 
         public async Task SendEmailAsync(EmailRequestDto emailRequestDto)
         {
-            var email = new MimeMessage();
-
-            email.Sender = MailboxAddress.Parse("vidaz7575@gmail.com");
-            email.To.Add(MailboxAddress.Parse(emailRequestDto.ToEmail));
-            email.Subject = emailRequestDto.Subject;
-
-            var builder = new BodyBuilder();
-
-            if (emailRequestDto.Attachments != null)
+            try
             {
-                byte[] fileBytes;
+                if (string.IsNullOrEmpty(emailRequestDto.ToEmail))
+                    throw new ArgumentException("Recipient email is required.");
+                var email = new MimeMessage();
 
-                foreach (var file in emailRequestDto.Attachments)
+                email.Sender = MailboxAddress.Parse("vidaz7575@gmail.com");
+                email.To.Add(MailboxAddress.Parse(emailRequestDto.ToEmail));
+                email.Subject = emailRequestDto.Subject;
+
+                var builder = new BodyBuilder
                 {
-                    if (file.Length > 0)
+                    HtmlBody = emailRequestDto.Body
+                };
+
+                if (emailRequestDto.Attachments != null)
+                {
+                    byte[] fileBytes;
+
+                    foreach (var file in emailRequestDto.Attachments)
                     {
-                        using (var ms = new MemoryStream())
+                        if (file.Length > 0)
                         {
-                            file.CopyTo(ms);
-                            fileBytes = ms.ToArray();
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                fileBytes = ms.ToArray();
+
+                                builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                            }
                         }
-                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
                     }
+                }
+
+                builder.HtmlBody = emailRequestDto.Body;
+                email.Body = builder.ToMessageBody();
+
+                using (var smtp = new SmtpClient())
+                {
+                    smtp.Connect("SMTP", 0, SecureSocketOptions.StartTls);
+                    smtp.Authenticate(_emailSettings.Email, _emailSettings.Password);
+
+                    await smtp.SendAsync(email);
+                    smtp.Disconnect(true);
                 }
             }
 
-            builder.HtmlBody = emailRequestDto.Body;
-            email.Body = builder.ToMessageBody();
-
-            using var smtp = new SmtpClient();
-            smtp.Connect("SMTP", 0, SecureSocketOptions.StartTls);
-            smtp.Authenticate(_emailSettings.Email, _emailSettings.Password);
-
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Failed to send email.", ex);
+            }
         }
-
-        #endregion
     }
 }
+                #endregion
+           
