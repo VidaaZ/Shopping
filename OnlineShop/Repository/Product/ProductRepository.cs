@@ -81,6 +81,10 @@ namespace OnlineShop.Repository.Product
 
             return await query.ToListAsync();
         }
+        public async Task<List<entities.Product>> GetAllPricesByIdAsync(List<int> productIds) =>
+            await _dbContext.Products.Where(item => productIds.Contains(item.ProductId)).ToListAsync();
+            
+        
 
 
 

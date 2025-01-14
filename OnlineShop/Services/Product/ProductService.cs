@@ -98,12 +98,22 @@ namespace OnlineShop.Services.Product
         {
             var products = await _productRepository.SearchProductsAsync(productName, categoryName);
 
-           
+
             var productDto = _mapper.Map<IEnumerable<ProductResponseDto>>(products);
 
             return productDto;
         }
+       
+        public async Task<List<GetPriceResponseDto>> GetPriceAsync(List<int> productIds)
+        {
+            
+            var prices= await _productRepository.GetAllPricesByIdAsync(productIds);
+            return _mapper.Map<List<GetPriceResponseDto>>(prices);
 
+
+        }
+
+        
 
     }
 }
