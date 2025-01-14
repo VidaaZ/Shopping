@@ -103,17 +103,11 @@ namespace OnlineShop.Services.Product
 
             return productDto;
         }
-       
-        public async Task<List<GetPriceResponseDto>> GetPriceAsync(List<int> productIds)
+
+        public async Task<List<double>> GetPriceAsync(List<int> productIds)
         {
-            
-            var prices= await _productRepository.GetAllPricesByIdAsync(productIds);
-            return _mapper.Map<List<GetPriceResponseDto>>(prices);
-
-
+            var prices = await _productRepository.GetAllPricesByIdAsync(productIds);
+            return prices.Select(item => item.Price).ToList();
         }
-
-        
-
     }
 }

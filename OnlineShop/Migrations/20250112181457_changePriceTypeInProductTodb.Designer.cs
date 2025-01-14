@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Data;
 
@@ -11,9 +12,11 @@ using OnlineShop.Data;
 namespace OnlineShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250112181457_changePriceTypeInProductTodb")]
+    partial class changePriceTypeInProductTodb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,7 @@ namespace OnlineShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brand", (string)null);
+                    b.ToTable("Brand");
                 });
 
             modelBuilder.Entity("OnlineShop.entities.Product", b =>
@@ -105,7 +108,7 @@ namespace OnlineShop.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("OnlineShop.entities.ProductCategory", b =>
@@ -125,7 +128,7 @@ namespace OnlineShop.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("OnlineShop.entities.Role", b =>
@@ -142,7 +145,7 @@ namespace OnlineShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("OnlineShop.entities.User", b =>
@@ -181,7 +184,7 @@ namespace OnlineShop.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("OnlineShop.entities.Product", b =>

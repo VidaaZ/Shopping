@@ -9,6 +9,6 @@ namespace OnlineShop.Services.Product
         Task<bool> HasProductAsync(int id);
         Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
         Task<IEnumerable<ProductResponseDto>> SearchProductsAsync(string productName, string categoryName);
-        Task<List<GetPriceResponseDto>> GetPriceAsync(List<int> productIds);
+        Task<List<double>> GetPriceAsync(List<int> productIds);
     }
 }

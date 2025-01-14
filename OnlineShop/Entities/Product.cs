@@ -17,10 +17,11 @@ namespace OnlineShop.entities
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }
-       [Required]
+        [Required]
         public int CategoryId { get; set; }
         
         public ProductCategory ProductCategory { get; set; }
+        [Required]
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
     }

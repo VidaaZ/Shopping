@@ -19,10 +19,10 @@ namespace OnlineShop.Controllers
         [HttpPost]
         [ActionName("SumProduct")]
         [Route("sum-product")]
-        public async Task<IActionResult> SumProduct(ProductIdsRequestDto dto)
+        public async Task<IActionResult> SumProduct([FromBody] List<int> productIds)
         {
-            var productPrices = await _productService.GetPriceAsync(dto.ProductIds);
-            var totalSum = productPrices.Sum(p => p.Price);
+            var productPrices = await _productService.GetPriceAsync(productIds);
+            var totalSum = productPrices.Sum();
             return Ok(new { TotalSum = totalSum });
 
 
