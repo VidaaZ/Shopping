@@ -46,10 +46,12 @@ namespace OnlineShop.Services.Product
             }
         }
 
-        public async Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto)
+        public async Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto,int roleId)
         {
             try
             {
+                if (roleId != 3)
+                    throw new Exception("Access Denied");
                 var product = _mapper.Map<entities.Product>(dto);
                 var createdProduct = await _productRepository.CreateProductAsync(product);
                 return _mapper.Map<ProductResponseDto>(createdProduct);

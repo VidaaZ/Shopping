@@ -47,12 +47,12 @@ namespace OnlineShop.Controllers
         {
             try
             {
-                var isAuthenticated = await _signUpService.LoginAsync(loginRequest.UserName, loginRequest.Password);
+                var result = await _signUpService.LoginAsync(loginRequest.UserName, loginRequest.Password);
 
-                if (!isAuthenticated)
+                if (result is null)
                     return Unauthorized("Invalid username or password");
 
-                return Ok("Login successful");
+                return Ok(result);
             }
             catch (Exception ex)
             {

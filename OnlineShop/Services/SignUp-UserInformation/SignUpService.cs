@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OnlineShop.Models.SignUp;
+using OnlineShop.Models.User;
 using OnlineShop.Repository.SignUp_UserInformation;
 
 
@@ -17,7 +18,7 @@ namespace OnlineShop.Services.SignUp_UserInformation
         }
         public async Task<bool> SignUpAsync(SignUpRequestDto userInfo)
         {
-           
+
 
             var existingUser = await _signUpRepository.UserExistsAsync(userInfo.UserName, userInfo.Email);
             if (existingUser != null)
@@ -46,23 +47,32 @@ namespace OnlineShop.Services.SignUp_UserInformation
 
 
 
-        public async Task<bool> LoginAsync(string username, string password)
+        public async Task<UserResponseDto> LoginAsync(string username, string password)
         {
             var user = await _signUpRepository.GetUSerByUserNameAsync(username);
 
-            if (user == null)
-                return false;
-           
+            if (user is null)
+                return new UserResponseDto();
 
-            return VerifyPassword(password, user.PasswordHash);
+            var verifyPassword = VerifyPassword(password, user.PasswordHash);
+
+            if (!verifyPassword)
+
+                throw new Exception("Invalid password");
+            var result = _mapper.Map<entities.User, UserResponseDto>(user);
+
+            return result;
+
+
+
         }
 
-       
+
 
         private bool VerifyPassword(string password, string hashedPassword)
         {
 
-           return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
     }
 }

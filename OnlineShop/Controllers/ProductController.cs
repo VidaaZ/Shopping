@@ -51,7 +51,7 @@ namespace OnlineShop.Controllers
         [Route("product-id/{id}")]
         public async Task<IActionResult> DeleteProductAsync(int id)
         {
-            _logger.LogInformation("Attempting to delete product with ID {Id}", id);
+           
             try
             {
                 _productService.DeleteProduct(id);
@@ -67,13 +67,14 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
+        [Route("insert-product")]
         public async Task<IActionResult> CreateProductAsync(ProductRequestDto dto)
         {
-            _logger.LogInformation("Creating a new product");
+          
             try
             {
                 var result = await _productService.CreateProductAsync(dto);
-                _logger.LogInformation("Product created successfully with Name {Name}", result.Name);
+       
                 return Ok(result);
             }
             
@@ -116,7 +117,7 @@ namespace OnlineShop.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+   
 
         #endregion
     }
