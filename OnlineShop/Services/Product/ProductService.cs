@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.entities;
 using OnlineShop.Models.Product;
+using OnlineShop.Models.User;
 using OnlineShop.Repository.Product;
 
 namespace OnlineShop.Services.Product
@@ -46,15 +47,16 @@ namespace OnlineShop.Services.Product
             }
         }
 
-        public async Task<ProductResponseDto> CreateProductAsync(ProductRequestDto dto,int roleId)
+        public async Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, UserResponseDto user)
         {
             try
             {
-                if (roleId != 3)
+                if (user.RoleId != 3)
                     throw new Exception("Access Denied");
                 var product = _mapper.Map<entities.Product>(dto);
+               
                 var createdProduct = await _productRepository.CreateProductAsync(product);
-                return _mapper.Map<ProductResponseDto>(createdProduct);
+                return _mapper.Map<ProductRequestDto>(createdProduct);
             }
             catch (Exception ex)
             {

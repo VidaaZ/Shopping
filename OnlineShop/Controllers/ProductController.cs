@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OnlineShop.Models.Product;
+using OnlineShop.Models.User;
 using OnlineShop.Services.Product;
+using OnlineShop.Services.User;
+using System.Security.Claims;
 
 
 namespace OnlineShop.Controllers
@@ -11,7 +14,7 @@ namespace OnlineShop.Controllers
     public class ProductController : ControllerBase
     {
         #region properties
-
+        private IUserService _userService;
         private IProductService _productService;
         private readonly ILogger<ProductController> _logger;
 
@@ -19,11 +22,14 @@ namespace OnlineShop.Controllers
 
         #region Constructor
 
-        public ProductController(IProductService productService, ILogger<ProductController> logger)
+        public ProductController(IProductService productService, ILogger<ProductController> logger,IUserService userService)
         {
             _productService = productService;
             _logger = logger;
+            _userService = userService;
         }
+
+       
 
         #endregion
 
@@ -68,23 +74,25 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
         [Route("insert-product")]
-        public async Task<IActionResult> CreateProductAsync(ProductRequestDto dto)
+        public async Task<IActionResult> CreateProductAsync([FromBody] ProductRequestDto dto,UserResponseDto user)
         {
-          
             try
             {
-                var result = await _productService.CreateProductAsync(dto);
-       
+                
+                // Call the service to create the product
+                var result = await _productService.CreateProductAsync(dto, user);
+
+                // Return the created product
                 return Ok(result);
             }
-            
-                catch (Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while creating a new product");
+                _logger.LogError(ex, "Error occurred while creating a new product.");
                 return BadRequest("An error occurred while creating the product.");
             }
-        
         }
+
+
 
         [HttpPut]
         public async Task<IActionResult> UpdateProductAsync(UpdateProductRequestDto dto)
