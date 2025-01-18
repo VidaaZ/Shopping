@@ -53,7 +53,7 @@ namespace OnlineShop.Services.Product
             try
             {
                 if (user.RoleId != 3)
-                    throw new AccessDeniedException("Only Seller can have access to insert a product");
+                    throw new AccessDeniedException();
                 var product = _mapper.Map<entities.Product>(dto);
                
                 var createdProduct = await _productRepository.CreateProductAsync(product);
