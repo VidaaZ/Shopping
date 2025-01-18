@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OnlineShop.entities;
+using OnlineShop.Exceptions;
 using OnlineShop.Models.Product;
 using OnlineShop.Models.User;
 using OnlineShop.Repository.Product;
@@ -52,7 +53,7 @@ namespace OnlineShop.Services.Product
             try
             {
                 if (user.RoleId != 3)
-                    throw new Exception("Access Denied");
+                    throw new AccessDeniedException("Only Seller can have access to insert a product");
                 var product = _mapper.Map<entities.Product>(dto);
                
                 var createdProduct = await _productRepository.CreateProductAsync(product);
