@@ -45,7 +45,7 @@ namespace OnlineShop.Repository.Product
                 throw new Exception("Product not found.");
             }
 
-           
+
             _dbContext.Entry(existingProduct).CurrentValues.SetValues(product);
 
             await _dbContext.SaveChangesAsync();
@@ -54,39 +54,38 @@ namespace OnlineShop.Repository.Product
         public async Task<IEnumerable<entities.Product>> SearchProductsAsync(string productName, string categoryName)
         {
             var query = _dbContext.Products.AsQueryable();
-            
+
             if (!string.IsNullOrEmpty(productName))
             {
-               
+
                 query = query.Where(p => p.Name.Contains(productName));
             }
             else if (!string.IsNullOrEmpty(categoryName))
             {
-                
-             
+
+
                 var category = await _dbContext.ProductCategories
                     .FirstOrDefaultAsync(c => c.Name.Contains(categoryName));
 
                 if (category != null)
                 {
-                 
+
                     query = query.Where(p => p.CategoryId == category.CategoryId);
                 }
                 else
                 {
-                    
+
                     return new List<entities.Product>();
                 }
             }
 
             return await query.ToListAsync();
         }
-        public async Task<List<entities.Product>> GetAllPricesByIdAsync(List<int> productIds) =>
-            await _dbContext.Products.Where(item => productIds.Contains(item.ProductId)).ToListAsync();
-            
-        
-
-
-
+        public async Task<List<entities.Product>> GetAllPricesByIdAsync(List<int> productIds)
+        {
+            var result = await _dbContext.Products
+                        .Where(item => productIds.Contains(item.ProductId)).Select(item => item.ProductId).ToListAsync();
+                        return null; 
+        }   
     }
 }

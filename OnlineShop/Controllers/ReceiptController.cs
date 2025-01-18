@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Models.Product;
 using OnlineShop.Services.Product;
 using System.Drawing.Text;
 
@@ -17,10 +18,10 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
         [ActionName("SumProduct")]
-        [Route("sum-product/{productIds}")]
-        public async Task<IActionResult> SumProduct([FromBody] List<int> productIds)
+        [Route("sum-product")]
+        public async Task<IActionResult> SumProduct(ProductIdsRequestDto dto)
         {
-            var productPrices = await _productService.GetPriceAsync(productIds);
+            var productPrices = await _productService.GetPriceAsync(dto.ProductIds);
             var totalSum = productPrices.Sum(p => p.Price);
             return Ok(new { TotalSum = totalSum });
 
