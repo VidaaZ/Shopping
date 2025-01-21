@@ -79,10 +79,7 @@ namespace OnlineShop.Controllers
             try
             {
                 
-                // Call the service to create the product
-                var result = await _productService.CreateProductAsync(dto, user);
-
-                // Return the created product
+                var result = await _productService.CreateProductAsync(dto, dto.User);
                 return Ok(result);
             }
             catch (Exception ex)

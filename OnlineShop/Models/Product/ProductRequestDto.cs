@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OnlineShop.Models.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShop.Models.Product
 {
@@ -19,6 +20,8 @@ namespace OnlineShop.Models.Product
         
         [Required(ErrorMessage = "Please enter Category Id")]
         public int CategoryId { get; set; }
-        public int RoleId { get; set; }
+
+        public UserResponseDto User { get; set; }
+
     }
 }
