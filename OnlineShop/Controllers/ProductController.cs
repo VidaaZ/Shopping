@@ -74,7 +74,7 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
         [Route("insert-product")]
-        public async Task<IActionResult> CreateProductAsync([FromBody] ProductRequestDto dto,UserResponseDto user)
+        public async Task<IActionResult> CreateProductAsync([FromBody] ProductRequestDto dto)
         {
             try
             {

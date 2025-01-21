@@ -18,6 +18,7 @@ namespace OnlineShop.Models.Product
         public string UpdatedDate { get; set; }
         
         [Required(ErrorMessage = "Please enter Category Id")]
-        public int CategoryId { get; set; }        
+        public int CategoryId { get; set; }
+        public int RoleId { get; set; }
     }
 }
