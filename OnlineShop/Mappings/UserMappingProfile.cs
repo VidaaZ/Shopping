@@ -9,6 +9,7 @@ namespace OnlineShop.Mappings
         {
             CreateMap<UserRequestDto,User>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
+            CreateMap<User, UserResponseDto>();
         }
     }
 }

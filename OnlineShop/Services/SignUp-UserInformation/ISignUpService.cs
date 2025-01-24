@@ -7,6 +7,6 @@ namespace OnlineShop.Services.SignUp_UserInformation
     public interface ISignUpService
     {
         Task<bool> SignUpAsync(SignUpRequestDto userInfo);
-        Task<UserResponseDto> LoginAsync(string username, string password);
+        Task<UserLoginResponseDto> LoginAsync(string username, string password);
     }
 }

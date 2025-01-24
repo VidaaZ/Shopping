@@ -2,10 +2,10 @@
 
 namespace OnlineShop.Models.Login
 {
-   
 
 
-public class LoginRequestDto
+
+    public class LoginRequestDto
     {
         [Required(ErrorMessage = "Username is required.")]
         public string UserName { get; set; }
@@ -15,3 +15,4 @@ public class LoginRequestDto
     }
 
 }
+

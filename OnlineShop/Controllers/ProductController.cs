@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OnlineShop.Models.Product;
 using OnlineShop.Models.User;
@@ -73,6 +74,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("insert-product")]
         public async Task<IActionResult> CreateProductAsync([FromBody] ProductRequestDto dto)
         {
