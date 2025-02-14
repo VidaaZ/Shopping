@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using OnlineShop.Data;
-using OnlineShop.entities;
 using OnlineShop.Repository.SignUp_UserInformation;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
 
 namespace OnlineShop.Repository.UserInformation_SignUp
 {

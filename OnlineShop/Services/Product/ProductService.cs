@@ -4,6 +4,7 @@ using OnlineShop.Exceptions;
 using OnlineShop.Models.Product;
 using OnlineShop.Models.User;
 using OnlineShop.Repository.Product;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace OnlineShop.Services.Product
 {
@@ -48,15 +49,71 @@ namespace OnlineShop.Services.Product
             }
         }
 
-        public async Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, UserResponseDto user)
+        //public async Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, string token)
+        //{
+        //    try { 
+        //    //{
+        //    //    if (user.RoleId != 3)
+        //    //        throw new AccessDeniedException();
+        //    // Parse and validate the token
+        //    var handler = new JwtSecurityTokenHandler();
+        //    var jwtToken = handler.ReadJwtToken(token);
+
+        //    // Extract the "role" claim
+        //    var roleIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")?.Value;
+
+        //            //if (roleIdClaim == null || roleIdClaim != "3") // Allow only RoleId == 3 (Seller)
+        //            //{
+        //            //    throw new AccessDeniedException("You are not authorized to add products.");
+        //            //}
+        //            var product = _mapper.Map<entities.Product>(dto);
+
+        //        var createdProduct = await _productRepository.CreateProductAsync(product);
+        //        return _mapper.Map<ProductRequestDto>(createdProduct);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new InvalidOperationException("An error occurred while creating the product.", ex);
+        //    }
+        //}
+        public async Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, string token)
         {
             try
             {
-                if (user.RoleId != 3)
-                    throw new AccessDeniedException();
+                if (string.IsNullOrEmpty(token))
+                {
+                    throw new UnauthorizedAccessException("Token is required.");
+                }
+
+                // Parse and validate the token
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+
+                if (jwtToken == null)
+                {
+                    throw new UnauthorizedAccessException("Invalid token.");
+                }
+
+                // Extract "role" claim from the token
+                var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role");
+
+                if (roleClaim == null)
+                {
+                    throw new UnauthorizedAccessException("Role information is missing in the token.");
+                }
+
+                int roleId = int.Parse(roleClaim.Value);
+
+                // 🔹 Check RoleId to allow only RoleId = 3 (Seller)
+                if (roleId != 3)
+                {
+                    throw new UnauthorizedAccessException("You are not authorized to add products.");
+                }
+
+                // Proceed with product insertion
                 var product = _mapper.Map<entities.Product>(dto);
-               
                 var createdProduct = await _productRepository.CreateProductAsync(product);
+
                 return _mapper.Map<ProductRequestDto>(createdProduct);
             }
             catch (Exception ex)

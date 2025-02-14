@@ -11,6 +11,10 @@ using OnlineShop.Mappings;
 using OnlineShop.Services.SignUp_UserInformation;
 using OnlineShop.Repository.UserInformation_SignUp;
 using OnlineShop.Repository.SignUp_UserInformation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +23,24 @@ var mappingConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new ProductMappingProfile());
     mc.AddProfile(new SignUpMappingProfile());
+    mc.AddProfile(new UserMappingProfile());
 });
 IMapper mapper = mappingConfig.CreateMapper();
+//Configure JWT 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "http://localhost:5137",
+            ValidAudience = "http://localhost:5137",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("fe1df58dfdd21d196964570da3a89ae488f332cfa2dec6756cd964fd89a47e0d"))
+        };
+    });
 
 #region Services
 builder.Services.AddCors(options =>
@@ -53,7 +73,33 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer' followed by your token.\nExample: Bearer {your token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 // JSON serializer to handle reference loops
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -84,6 +130,7 @@ app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

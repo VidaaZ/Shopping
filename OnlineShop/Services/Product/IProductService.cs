@@ -6,7 +6,8 @@ namespace OnlineShop.Services.Product
     {
         Task<IEnumerable<ProductResponseDto>> GetProductsAsync();
         void DeleteProduct(int id);
-        Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, UserResponseDto user);
+        //Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, UserResponseDto user);
+        Task<ProductRequestDto> CreateProductAsync(ProductRequestDto dto, string token);
         Task<bool> HasProductAsync(int id);
         Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
         Task<IEnumerable<ProductResponseDto>> SearchProductsAsync(string productName, string categoryName);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OnlineShop.Exceptions;
 using OnlineShop.Models.Product;
 using OnlineShop.Models.User;
 using OnlineShop.Services.Product;
@@ -73,6 +74,23 @@ namespace OnlineShop.Controllers
 
         }
 
+        //[HttpPost]
+        //[Authorize]
+        //[Route("insert-product")]
+        //public async Task<IActionResult> CreateProductAsync([FromBody] ProductRequestDto dto)
+        //{
+        //    try
+        //    {
+
+        //        var result = await _productService.CreateProductAsync(dto, dto.User);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error occurred while creating a new product.");
+        //        return BadRequest("An error occurred while creating the product.");
+        //    }
+        //}
         [HttpPost]
         [Authorize]
         [Route("insert-product")]
@@ -80,9 +98,18 @@ namespace OnlineShop.Controllers
         {
             try
             {
-                
-                var result = await _productService.CreateProductAsync(dto, dto.User);
+                // Extract the token from the Authorization header
+                var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+                // Pass the token to the service
+                var result = await _productService.CreateProductAsync(dto, token);
+
                 return Ok(result);
+            }
+            catch (AccessDeniedException ex)
+            {
+                _logger.LogError(ex, "Access denied while creating a new product.");
+                return Forbid("You are not authorized to create products.");
             }
             catch (Exception ex)
             {
@@ -90,6 +117,7 @@ namespace OnlineShop.Controllers
                 return BadRequest("An error occurred while creating the product.");
             }
         }
+
 
 
 

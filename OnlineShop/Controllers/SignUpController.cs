@@ -6,7 +6,7 @@ using OnlineShop.Services.SignUp_UserInformation;
 
 namespace OnlineShop.Controllers
 {
-    
+
     [Route("api/signup")]
     public class SignUpController : ControllerBase
     {
@@ -18,6 +18,7 @@ namespace OnlineShop.Controllers
             _signUpService = signUpService;
             _logger = logger;
         }
+
         [HttpPost]
         [Route("signup")]
         public async Task<IActionResult> SignupAsync([FromBody] SignUpRequestDto signUpInfo)
@@ -41,6 +42,7 @@ namespace OnlineShop.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto loginRequest)
@@ -48,6 +50,7 @@ namespace OnlineShop.Controllers
             try
             {
                 var result = await _signUpService.LoginAsync(loginRequest.UserName, loginRequest.Password);
+
 
                 if (result is null)
                     return Unauthorized("Invalid username or password");
@@ -58,6 +61,13 @@ namespace OnlineShop.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Route("GetToken")]
+        public IActionResult GetTokenAsync([FromBody] User user)
+        {
+            return Ok(_signUpService.GenerateJwtToken(user));
         }
     }
 }

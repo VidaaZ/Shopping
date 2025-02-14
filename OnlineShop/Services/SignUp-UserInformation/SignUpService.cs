@@ -53,13 +53,17 @@ namespace OnlineShop.Services.SignUp_UserInformation
 
         public async Task<UserLoginResponseDto> LoginAsync(string username, string password)
         {
-            var user = await _signUpRepository.GetUSerByUserNameAsync(username);
-            
-
+            var user = _signUpRepository.GetUSerByUserNameAsync(username).Result;
 
             if (user is null)
                 return new UserLoginResponseDto();
-       
+
+            //var result = new UserResponseDto() //manuall mapping
+            //{
+            //    Id = user.Id,
+            //    RoleId = user.RoleId
+            //};
+
 
             var verifyPassword = VerifyPassword(password, user.PasswordHash);
 
@@ -73,13 +77,13 @@ namespace OnlineShop.Services.SignUp_UserInformation
 
             return new UserLoginResponseDto
             {
-                User = result,
+                //User = result,
                 Token = token
             };
 
 
         }
-        private string GenerateJwtToken(entities.User user)
+        public string GenerateJwtToken(entities.User user)
         {
             var claims = new[]
             {
@@ -89,7 +93,7 @@ namespace OnlineShop.Services.SignUp_UserInformation
         new Claim("role", user.RoleId.ToString())
     };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_super_secret_key"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("fe1df58dfdd21d196964570da3a89ae488f332cfa2dec6756cd964fd89a47e0d"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -105,12 +109,14 @@ namespace OnlineShop.Services.SignUp_UserInformation
 
 
 
-
         private bool VerifyPassword(string password, string hashedPassword)
         {
+           
 
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
+
+
     }
 }
 

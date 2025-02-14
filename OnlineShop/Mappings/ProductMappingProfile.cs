@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.entities;
 using OnlineShop.Models.Product;
+using OnlineShop.Models.User;
 
 namespace OnlineShop.Mappings
 {
@@ -12,6 +13,7 @@ namespace OnlineShop.Mappings
             CreateMap<Product, ProductResponseDto>();
             CreateMap<ProductRequestDto, Product>();
             CreateMap<UpdateProductRequestDto, Product>();
+          
         }
     }
 }

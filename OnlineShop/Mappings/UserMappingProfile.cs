@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.Models.User;
 using OnlineShop.entities;
+using Microsoft.Identity.Client;
 namespace OnlineShop.Mappings
 {
     public class UserMappingProfile:Profile
@@ -9,7 +10,10 @@ namespace OnlineShop.Mappings
         {
             CreateMap<UserRequestDto,User>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
-            CreateMap<User, UserResponseDto>();
+
+            this.CreateMap<entities.User, UserResponseDto>();
+
+            
         }
     }
 }
