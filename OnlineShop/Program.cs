@@ -12,6 +12,8 @@ using OnlineShop.Services.SignUp_UserInformation;
 using OnlineShop.Repository.UserInformation_SignUp;
 using OnlineShop.Repository.SignUp_UserInformation;
 using OnlineShop.Services.Email;
+using OnlineShop.Repository.Photo;
+using OnlineShop.Services.Photo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISignUpService, SignUpService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 builder.Services.AddSingleton(mapper);
 #endregion
@@ -47,6 +50,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 builder.Services.AddScoped<ISignUpRepository, SignUpRepository>();
+builder.Services.AddScoped<IUploadPhotoRepository, UploadPhotoRepository>();
 #endregion
 
 // Add services to the container

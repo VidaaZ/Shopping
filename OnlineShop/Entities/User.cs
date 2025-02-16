@@ -27,7 +27,10 @@ namespace OnlineShop.entities
         [Required]
         public int RoleId { get; set; } 
 
-        public Role Role { get; set; } 
+        public Role Role { get; set; }
+
+        public ICollection<SellerInfo> SellerInfos { get; set; }
+
     }
 
 }

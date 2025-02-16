@@ -15,6 +15,7 @@ namespace OnlineShop.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<SellerInfo> SellerInfos { get; set; }
       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +33,12 @@ namespace OnlineShop.Data
                .HasOne(u => u.Brand)
                .WithMany(r => r.Products)
                .HasForeignKey(u => u.BrandId);
+
+
+            modelBuilder.Entity<SellerInfo>()
+               .HasOne(u => u.User)
+               .WithMany(r => r.SellerInfos)
+               .HasForeignKey(u => u.UserId);
 
             base.OnModelCreating(modelBuilder);
         }
