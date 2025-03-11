@@ -16,13 +16,18 @@ namespace OnlineShop.entities
         public int StockQuantity { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+      
         public bool IsActive { get; set; }
         [Required]
         public int CategoryId { get; set; }
         
-        public ProductCategory ProductCategory { get; set; }
         [Required]
         public int BrandId { get; set; }
+
         public Brand Brand { get; set; }
+        public ProductCategory ProductCategory { get; set; }
+
+        public ICollection<ProductImages> ProductImages { get; set; }
+
     }
 }

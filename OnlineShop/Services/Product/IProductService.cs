@@ -1,4 +1,5 @@
-﻿using OnlineShop.Models.Product;
+﻿using OnlineShop.entities;
+using OnlineShop.Models.Product;
 namespace OnlineShop.Services.Product
 {
     public interface IProductService
@@ -10,5 +11,8 @@ namespace OnlineShop.Services.Product
         Task<ProductResponseDto> UpdateProductAsync(UpdateProductRequestDto dto);
         Task<IEnumerable<ProductResponseDto>> SearchProductsAsync(string productName, string categoryName);
         Task<List<double>> GetPriceAsync(List<int> productIds);
+        Task<string> CreateAllProductImagesByIdAsync(ProductImageDto productImage);
+
+
     }
 }

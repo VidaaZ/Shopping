@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.entities;
 
 namespace OnlineShop.Repository.Product
 {
@@ -29,6 +30,7 @@ namespace OnlineShop.Repository.Product
             var result = _dbContext.Products.FirstOrDefaultAsync(x => x.ProductId == id);
             return result;
         }
+
 
         public async Task<IEnumerable<entities.Product>> GetProductsAsync()
         {
@@ -91,6 +93,14 @@ namespace OnlineShop.Repository.Product
                 results.AddRange(result);
             }
             return results;
+        }
+
+        public async Task<string> CreateAllProductImagesByIdAsync(ProductImages productImages)
+        {
+            await _dbContext.ProductImages.AddAsync(productImages);
+            await _dbContext.SaveChangesAsync();
+            var product = await GetProductById(productImages.ProductId);
+            return product.Name;
         }
     }
 }

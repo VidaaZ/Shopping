@@ -1,4 +1,6 @@
-﻿namespace OnlineShop.Repository.Product
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+
+namespace OnlineShop.Repository.Product
 {
     public interface IProductRepository
     {
@@ -9,6 +11,7 @@
         Task<entities.Product> UpdateProductRepository(entities.Product product);
         Task<IEnumerable<entities.Product>> SearchProductsAsync(string productName, string categoryName);
         Task<List<entities.Product>> GetAllPricesByIdAsync(List<int> productIds);
+        Task<string> CreateAllProductImagesByIdAsync(entities.ProductImages productImages );
     }
     
 }

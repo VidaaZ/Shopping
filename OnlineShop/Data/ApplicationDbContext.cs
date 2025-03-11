@@ -16,6 +16,7 @@ namespace OnlineShop.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<SellerInfo> SellerInfos { get; set; }
+        public DbSet<ProductImages> ProductImages { get; set; }
       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +40,11 @@ namespace OnlineShop.Data
                .HasOne(u => u.User)
                .WithMany(r => r.SellerInfos)
                .HasForeignKey(u => u.UserId);
+
+            modelBuilder.Entity<ProductImages>()
+                .HasOne(u => u.Product)
+                .WithMany(r => r.ProductImages)
+                .HasForeignKey(u => u.ProductId);
 
             base.OnModelCreating(modelBuilder);
         }
