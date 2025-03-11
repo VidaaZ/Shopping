@@ -109,5 +109,58 @@ namespace OnlineShop.Services.Product
             var prices = await _productRepository.GetAllPricesByIdAsync(productIds);
             return prices.Select(item => item.Price).ToList();
         }
+
+        public async Task<string> CreateAllProductImagesByIdAsync(ProductImageDto productImage)
+        {
+
+            if (productImage is null)
+                throw new ArgumentException("ProductImage is null");
+
+            var product = _productRepository.GetProductById(productImage.ProductId);
+
+            if (product is null)
+                throw new ArgumentException("Product is not found!");
+
+            //var tasks = new List<Task>();
+            int processorCount = Environment.ProcessorCount;
+
+            var pararllelOptions = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = processorCount
+            };
+
+            var tasks = new List<Task>();
+
+            Parallel.ForEach(productImage.ImageDatas, pararllelOptions, imageData =>
+            {
+                var task = Task.Run(async () =>
+                {
+
+
+                    using (var ms = new MemoryStream())
+                    {
+                        await imageData.CopyToAsync(ms);
+
+                        var productImageEntity = new entities.ProductImages
+                        {
+                            ImageData = ms.ToArray(),
+                            ProductId = productImage.ProductId,
+                            ContentType = productImage.ContentType
+                        };
+
+                        await _productRepository.CreateAllProductImagesByIdAsync(productImageEntity);
+
+                    }
+                });
+
+                tasks.Add(task);
+            });
+            await Task.WhenAll();
+
+            return "Success";
+
+
+
+        }
     }
 }
